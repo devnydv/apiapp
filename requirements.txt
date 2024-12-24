@@ -1,0 +1,6 @@
+Flask
+Jinja2
+requests
+gunicorn
+bs4 
+flask-cors
