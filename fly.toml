@@ -1,0 +1,34 @@
+app = "your-app-name"  # replace with your Fly app name
+
+primary_region = "iad"  # choose your preferred region (e.g., iad, sea, lhr)
+
+[build]
+  image = "python:3.11-slim"
+
+[env]
+  FLASK_APP = "app.py"
+  FLASK_ENV = "production"
+
+[deploy]
+  release_command = "flask db upgrade"  # Optional: if using Flask-Migrate
+
+[experimental]
+  auto_rollback = true
+
+[[services]]
+  internal_port = 5000
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    interval = "10s"
+    timeout = "2s"
+    grace_period = "10s"
+    restart_limit = 0
